@@ -1,9 +1,17 @@
 import { useState } from 'react'
+import { useMutation } from '@tanstack/react-query';
+import { login } from '../http';
+import { enqueueSnackbar} from 'notistack'
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/slices/userSlice';
+import { useHistory } from 'react-router-dom';
 
 // Auth Component
 const Auth = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
-    phoneNumber: '',
+    email: '',
     password: ''
   });
 
@@ -15,7 +23,25 @@ const Auth = () => {
     e.preventDefault();
     console.log('Form submitted:', formData);
     // Your login logic here
+    loginMutation.mutate(formData) 
   }
+
+  const loginMutation = useMutation({
+    mutationFn: (reqData) => login(reqData),
+    onSuccess: (res) => {
+      const { data}  = res;
+       console.log(data);
+       const { _id, username, email,role} = data.data;
+       dispatch(setUser({ _id, username, email,role} ));
+      enqueueSnackbar(data.message, { variant: "success"});
+       history.push("/dashboard")
+    },
+    onError : (error) => {
+      const { response} = error;
+      enqueueSnackbar(response.data.message, { variant: "error"});
+      console.log(error)
+    }
+  })
 
   return (
     <div 
@@ -44,15 +70,15 @@ const Auth = () => {
             {/* Phone Number Field */}
             <div>
               <label className="block text-gray-200 text-sm font-medium mb-2">
-                Enter your number:
+                Enter your Email:
               </label>
               <input
                 value={formData.phoneNumber}
                 onChange={handleChange}
                 required
-                name="phoneNumber"
-                type="tel"
-                placeholder="Enter your number"
+                name="email"
+                type="email"
+                placeholder="Enter your Email"
                 className="w-full p-3 rounded-lg outline-none border border-gray-400 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400 focus:ring-opacity-50 transition-all duration-200 text-gray-800 bg-white"
               />
             </div>

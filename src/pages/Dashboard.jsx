@@ -9,6 +9,7 @@ import Testimonial from "../components/dashboard/Testimonial";
 import Request from "../components/dashboard/Request";
 import HolidayHome from "../components/dashboard/HolidayHome";
 import Package from "../components/dashboard/Package";
+import Header from "./Header";
 
 
 
@@ -55,17 +56,7 @@ const Dashboard = () => {
       </div>
 
       {/* Header */}
-      <header className="relative z-10 bg-gray-800/80 backdrop-blur-sm border-b border-gray-700/50 flex-shrink-0">
-        <div className="px-6 py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-white">KM GROUP Dashboard</h1>
-            <div className="flex items-center gap-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"></div>
-              <span className="text-gray-300">Admin</span>
-            </div>
-          </div>
-        </div>
-      </header>
+     <Header/>
 
       <div className="relative z-10 flex-1 flex flex-col px-6 py-4 overflow-hidden">
         {/* Action Buttons */}
