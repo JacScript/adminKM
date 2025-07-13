@@ -24,7 +24,7 @@ const tabs = [
 
 const Dashboard = () => {
   const [isTableModalOpen, setIsTableModalOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("Testimonial");
+  const [activeTab, setActiveTab] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {

@@ -1,29 +1,3 @@
-// import react from "react";
-// import {
-//   BrowserRouter as Router,
-//   Route,
-//   Switch,
-// } from "react-router-dom";
-// import "./App.css";
-// import Auth from "./pages/Login";
-// import Dashboard from "./pages/Dashboard";
-// import { useSelector } from "react-redux";
-
-// function App() {
-
-//   // console.log("Backend URL:", import.meta.env.VITE_BACKEND_URL);
-//     const userInfo = useSelector(state => state.user)
-//   return(
-//   <Router>
-//     <Switch>
-//       <Route exact path="/dashboard" component={Dashboard} />
-//       <Route  path="/" component={Auth} />
-//     </Switch>
-//   </Router>  )
-// }
-
-// export default App;
-
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -42,14 +16,30 @@ const ProtectedRoute = ({ component: Component, userInfo, ...rest }) => (
     {...rest}
     render={(props) => {
       // Check if user is authenticated and has admin role
-      if (userInfo && userInfo.isAuth && userInfo.role === 'admin') {
+      if (userInfo && userInfo.isAuth && userInfo.userInfo.role === 'admin') {
         return <Component {...props} />;
-      } else if (userInfo && userInfo.isAuth && userInfo.role !== 'admin') {
-        // User is authenticated but not admin - redirect to unauthorized page or login
+      } else if (userInfo && userInfo.isAuth && userInfo.userInfo.role !== 'admin') {
+        // User is authenticated but not admin - redirect to unauthorized page
         return <Redirect to="/unauthorized" />;
       } else {
         // User is not authenticated - redirect to login
         return <Redirect to="/" />;
+      }
+    }}
+  />
+);
+
+// Public Route Component (redirects authenticated users away from login)
+const PublicRoute = ({ component: Component, userInfo, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) => {
+      // If user is authenticated, redirect to dashboard
+      if (userInfo && userInfo.isAuth) {
+        return <Redirect to="/dashboard" />;
+      } else {
+        // User is not authenticated, show the login page
+        return <Component {...props} />;
       }
     }}
   />
@@ -67,8 +57,8 @@ const Unauthorized = () => (
 );
 
 function App() {
-  const userInfo = useSelector(state => state.user);
-  console.log({"userInfo": userInfo})
+  const userInfo = useSelector(state => state.auth);
+  console.log(userInfo);
 
   return (
     <Router>
@@ -80,7 +70,11 @@ function App() {
           userInfo={userInfo}
         />
         <Route path="/unauthorized" component={Unauthorized} />
-        <Route path="/" component={Auth} />
+        <PublicRoute 
+          path="/" 
+          component={Auth} 
+          userInfo={userInfo}
+        />
       </Switch>
     </Router>
   );
