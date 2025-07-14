@@ -64,7 +64,7 @@ const PackageListView = ({ filteredPackages, openModal, copyPackage, handleDelet
                       <FaCopy className="w-4 h-4" />
                     </button> */}
                     <button
-                      onClick={() => handleDelete(pkg.id)}
+                      onClick={() => handleDelete(pkg)}
                       className="text-red-600 hover:text-red-800 transition-colors"
                       title="Delete"
                     >

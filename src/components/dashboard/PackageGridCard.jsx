@@ -111,7 +111,7 @@ const PackageGridCard = ({
               <FaEdit className="w-4 h-4" />
             </button>
             <button
-              onClick={() => handleDelete(pkg.id)}
+              onClick={() => handleDelete(pkg)}
               className="p-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors"
               title="Delete Package"
             >

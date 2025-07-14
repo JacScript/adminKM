@@ -13,6 +13,7 @@ const api = axios.create({
 //User endpoints
 export const login = (data) => api.post("/api/auth/login", data);
 export const logout = (data) => api.post("/api/auth/logout", data);
+
 // console.log("Login request payload:", data);
 
 

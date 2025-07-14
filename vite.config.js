@@ -4,16 +4,16 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/admin',
   plugins: [
     react(),
     // require('tailwind-scrollbar-hide'),
-    tailwindcss(),
-  ],
+    tailwindcss(),0  ],
   server: {
     port: 3000,   // Change this to your desired port
     proxy: {
       '/api': {
-        target: 'http://localhost:8080', // Change this to your backend server URL
+        target: 'http://localhost:8080', // Change this tour backend server URL
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, '')
